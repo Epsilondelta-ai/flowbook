@@ -10,10 +10,41 @@ Storybook for flowcharts. Auto-discovers Mermaid diagram files from your codebas
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+# Install
+npm install -D flowbook
+
+# Initialize — adds scripts + example file
+npx flowbook init
+
+# Start dev server
+npm run flowbook
 # → http://localhost:6200
+
+# Build static site
+npm run build-flowbook
+# → flowbook-static/
 ```
+
+## CLI
+
+```
+flowbook init                Set up Flowbook in your project
+flowbook dev  [--port 6200]  Start the dev server
+flowbook build [--out-dir d] Build a static site
+```
+
+### `flowbook init`
+
+- Adds `"flowbook"` and `"build-flowbook"` scripts to your `package.json`
+- Creates `flows/example.flow.md` as a starter template
+
+### `flowbook dev`
+
+Starts a Vite dev server at `http://localhost:6200` with HMR. Any `.flow.md` or `.flowchart.md` file changes are picked up instantly.
+
+### `flowbook build`
+
+Builds a static site to `flowbook-static/` (configurable via `--out-dir`). Deploy it anywhere.
 
 ## Writing Flow Files
 
@@ -83,10 +114,14 @@ Ignores `node_modules/`, `.git/`, and `dist/`.
 src/
 ├── types.ts                    # Shared types (FlowEntry, FlowbookData)
 ├── node/
+│   ├── cli.ts                  # CLI entry point (init, dev, build)
+│   ├── server.ts               # Programmatic Vite server & build
+│   ├── init.ts                 # Project initialization logic
 │   ├── discovery.ts            # File scanner (fast-glob)
 │   ├── parser.ts               # Frontmatter + mermaid extraction
 │   └── plugin.ts               # Vite virtual module plugin
 └── client/
+    ├── index.html              # Entry HTML
     ├── main.tsx                # React entry
     ├── App.tsx                 # Layout with search + sidebar + viewer
     ├── vite-env.d.ts           # Virtual module type declarations
@@ -99,6 +134,24 @@ src/
         └── EmptyState.tsx      # Empty state with guide
 ```
 
+## Development (Contributing)
+
+```bash
+git clone https://github.com/Epsilondelta-ai/flowbook.git
+cd flowbook
+npm install
+
+# Local dev (uses root vite.config.ts)
+npm run dev
+
+# Build CLI
+npm run build
+
+# Test CLI locally
+node dist/cli.js dev
+node dist/cli.js build
+```
+
 ## Tech Stack
 
 - **Vite** — Dev server with HMR
@@ -107,15 +160,8 @@ src/
 - **Tailwind CSS v4** — Styling
 - **gray-matter** — YAML frontmatter parsing
 - **fast-glob** — File discovery
+- **tsup** — CLI bundler
 - **TypeScript** — Type safety
-
-## Scripts
-
-```bash
-npm run dev       # Start dev server (port 6200)
-npm run build     # Production build to dist/
-npm run preview   # Preview production build
-```
 
 ## License
 

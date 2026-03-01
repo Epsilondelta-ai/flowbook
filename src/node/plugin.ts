@@ -43,5 +43,11 @@ export function flowbookPlugin(options: FlowbookPluginOptions = {}): Plugin {
         }
       }
     },
+
+    configureServer(server) {
+      if (cwd !== process.cwd()) {
+        server.watcher.add(cwd);
+      }
+    },
   };
 }

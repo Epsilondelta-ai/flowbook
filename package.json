@@ -1,28 +1,35 @@
 {
   "name": "flowbook",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
+  "bin": {
+    "flowbook": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsup",
     "preview": "vite preview"
   },
   "dependencies": {
-    "mermaid": "^11.4.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
-    "@types/node": "^25.3.3",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.0",
     "fast-glob": "^3.3.0",
     "gray-matter": "^4.0.3",
+    "mermaid": "^11.4.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.0",
     "vite": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0"
   }
 }
