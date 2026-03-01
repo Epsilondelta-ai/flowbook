@@ -1,5 +1,7 @@
 # Flowbook
 
+> **English** | [한국어](./README.ko.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
+
 Storybook for flowcharts. Auto-discovers Mermaid diagram files from your codebase, organizes them by category, and renders them in a browsable viewer.
 
 ![Vite](https://img.shields.io/badge/vite-6.x-646CFF?logo=vite&logoColor=white)

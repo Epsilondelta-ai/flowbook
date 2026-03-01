@@ -1,0 +1,171 @@
+# Flowbook
+
+> [English](./README.md) | [한국어](./README.ko.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | **Русский** | [Deutsch](./README.de.md)
+
+Storybook для блок-схем. Автоматически обнаруживает файлы диаграмм Mermaid в вашем коде, организует их по категориям и отображает в удобном просмотрщике.
+
+![Vite](https://img.shields.io/badge/vite-6.x-646CFF?logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/react-19.x-61DAFB?logo=react&logoColor=white)
+![Mermaid](https://img.shields.io/badge/mermaid-11.x-FF3670?logo=mermaid&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-5.x-3178C6?logo=typescript&logoColor=white)
+
+## Быстрый Старт
+
+```bash
+# Установка
+npm install -D flowbook
+
+# Инициализация — добавляет скрипты + файл-пример
+npx flowbook init
+
+# Запуск сервера разработки
+npm run flowbook
+# → http://localhost:6200
+
+# Сборка статического сайта
+npm run build-flowbook
+# → flowbook-static/
+```
+
+## CLI
+
+```
+flowbook init                Настроить Flowbook в проекте
+flowbook dev  [--port 6200]  Запустить сервер разработки
+flowbook build [--out-dir d] Собрать статический сайт
+```
+
+### `flowbook init`
+
+- Добавляет скрипты `"flowbook"` и `"build-flowbook"` в ваш `package.json`
+- Создаёт `flows/example.flow.md` в качестве стартового шаблона
+
+### `flowbook dev`
+
+Запускает сервер разработки Vite на `http://localhost:6200` с поддержкой HMR. Любые изменения в файлах `.flow.md` или `.flowchart.md` отображаются мгновенно.
+
+### `flowbook build`
+
+Собирает статический сайт в `flowbook-static/` (настраивается через `--out-dir`). Разверните его где угодно.
+
+## Создание Файлов Потоков
+
+Создайте файл `.flow.md` (или `.flowchart.md`) в любом месте вашего проекта:
+
+````markdown
+---
+title: Поток Авторизации
+category: Аутентификация
+tags: [auth, login, oauth]
+order: 1
+description: Поток аутентификации пользователя с OAuth2
+---
+
+```mermaid
+flowchart TD
+    A[Пользователь] --> B{Авторизован?}
+    B -->|Да| C[Панель управления]
+    B -->|Нет| D[Страница входа]
+```
+````
+
+Flowbook автоматически обнаружит файл и добавит его в просмотрщик.
+
+## Схема Frontmatter
+
+| Поле          | Тип        | Обязательно | Описание                              |
+|---------------|------------|-------------|---------------------------------------|
+| `title`       | `string`   | Нет         | Отображаемый заголовок (по умолчанию: имя файла) |
+| `category`    | `string`   | Нет         | Категория в боковой панели (по умолчанию: "Uncategorized") |
+| `tags`        | `string[]` | Нет         | Фильтруемые теги                      |
+| `order`       | `number`   | Нет         | Порядок сортировки в категории (по умолчанию: 999) |
+| `description` | `string`   | Нет         | Описание в детальном просмотре        |
+
+## Обнаружение Файлов
+
+Flowbook по умолчанию сканирует следующие шаблоны:
+
+```
+**/*.flow.md
+**/*.flowchart.md
+```
+
+Игнорирует `node_modules/`, `.git/` и `dist/`.
+
+## Как Это Работает
+
+```
+файлы .flow.md ──→ Плагин Vite ──→ Виртуальный модуль ──→ React-просмотрщик
+                     │                    │
+                     ├─ сканирование      ├─ export default { flows: [...] }
+                     │  fast-glob         │
+                     ├─ gray-matter       └─ HMR при изменении файла
+                     │  парсинг
+                     └─ блок mermaid
+                        извлечение
+```
+
+1. **Обнаружение** — `fast-glob` сканирует проект в поисках `*.flow.md` / `*.flowchart.md`
+2. **Парсинг** — `gray-matter` извлекает YAML frontmatter; регулярные выражения извлекают блоки `` ```mermaid ``
+3. **Виртуальный модуль** — Плагин Vite предоставляет распарсенные данные как `virtual:flowbook-data`
+4. **Рендеринг** — React-приложение рендерит диаграммы Mermaid через `mermaid.render()`
+5. **HMR** — Изменения файлов инвалидируют виртуальный модуль, запуская перезагрузку
+
+## Структура Проекта
+
+```
+src/
+├── types.ts                    # Общие типы (FlowEntry, FlowbookData)
+├── node/
+│   ├── cli.ts                  # Точка входа CLI (init, dev, build)
+│   ├── server.ts               # Программный сервер Vite и сборка
+│   ├── init.ts                 # Логика инициализации проекта
+│   ├── discovery.ts            # Сканер файлов (fast-glob)
+│   ├── parser.ts               # Извлечение frontmatter + mermaid
+│   └── plugin.ts               # Плагин виртуального модуля Vite
+└── client/
+    ├── index.html              # Входной HTML
+    ├── main.tsx                # Точка входа React
+    ├── App.tsx                 # Макет с поиском + боковая панель + просмотрщик
+    ├── vite-env.d.ts           # Объявления типов виртуального модуля
+    ├── styles/globals.css      # Tailwind v4 + пользовательские стили
+    └── components/
+        ├── Header.tsx          # Логотип, поиск, количество потоков
+        ├── Sidebar.tsx         # Сворачиваемое дерево категорий
+        ├── MermaidRenderer.tsx # Рендеринг диаграмм Mermaid
+        ├── FlowView.tsx        # Детальный просмотр отдельного потока
+        └── EmptyState.tsx      # Пустое состояние с инструкцией
+```
+
+## Разработка (Вклад)
+
+```bash
+git clone https://github.com/Epsilondelta-ai/flowbook.git
+cd flowbook
+npm install
+
+# Локальная разработка (используется корневой vite.config.ts)
+npm run dev
+
+# Сборка CLI
+npm run build
+
+# Локальное тестирование CLI
+node dist/cli.js dev
+node dist/cli.js build
+```
+
+## Технологический Стек
+
+- **Vite** — Сервер разработки с HMR
+- **React 19** — Пользовательский интерфейс
+- **Mermaid 11** — Рендеринг диаграмм
+- **Tailwind CSS v4** — Стилизация
+- **gray-matter** — Парсинг YAML frontmatter
+- **fast-glob** — Обнаружение файлов
+- **tsup** — Сборщик CLI
+- **TypeScript** — Типобезопасность
+
+## Лицензия
+
+MIT
