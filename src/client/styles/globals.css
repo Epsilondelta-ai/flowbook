@@ -25,13 +25,63 @@ body {
   background: var(--fb-bg-outer);
 }
 
-/* Mermaid SVG sizing */
+/* ── Zoom container ── */
+.flowbook-zoom-container {
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+  height: 100%;
+}
+
+.flowbook-zoom-container:active {
+  cursor: grabbing;
+}
+
+/* Remove max-width limit so zoom works beyond container */
+.flowbook-zoom-container .flowbook-mermaid svg {
+  max-width: none;
+  height: auto;
+}
+
+/* ── Mermaid SVG sizing (non-zoom fallback) ── */
 .flowbook-mermaid svg {
   max-width: 100%;
   height: auto;
 }
 
-/* Scrollbar */
+/* ── Per-node-type coloring ── */
+
+/* Decision nodes: diamond, hexagon, etc. (polygon shapes) → dark rose */
+.flowbook-mermaid .node-decision polygon {
+  fill: #6b2142 !important;
+  stroke: #8b3a5c !important;
+}
+
+/* Database / cylinder nodes → dark teal-green */
+.flowbook-mermaid .node-database path {
+  fill: #1a4731 !important;
+  stroke: #2d6b47 !important;
+}
+.flowbook-mermaid .node-database rect {
+  fill: #1a4731 !important;
+  stroke: #2d6b47 !important;
+}
+
+/* Subroutine nodes (double-bordered rect) → dark slate */
+.flowbook-mermaid .node-subroutine rect {
+  fill: #1e2740 !important;
+  stroke: #2d3456 !important;
+}
+
+/* Circle nodes → indigo */
+.flowbook-mermaid .node-circle circle {
+  fill: #4f46e5 !important;
+  stroke: #6366f1 !important;
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
