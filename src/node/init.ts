@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { execSync } from "node:child_process";
-import { installAllProjectSkills } from "./skill";
 
 
 const EXAMPLE_FLOW = `---
@@ -87,19 +86,12 @@ export async function initFlowbook() {
     }
   }
 
-  // 5. Install AI agent skill to all supported agent directories
-  const installed = installAllProjectSkills();
-  if (installed > 0) {
-    console.log(`  ✓ Installed AI agent skill to ${installed} agent directories`);
-  } else {
-    console.log("  ✓ AI agent skills already installed");
-  }
-
   const run = pm === "yarn" ? "yarn" : `${pm} run`;
   console.log("");
   console.log("  Next steps:");
-  console.log(`    ${run} flowbook       Start the dev server`);
-  console.log(`    ${run} build-flowbook  Build static site`);
+  console.log(`    ${run} flowbook              Start the dev server`);
+  console.log(`    ${run} build-flowbook         Build static site`);
+  console.log(`    flowbook skill <agent> [-g]   Install AI skill & /flowbook command`);
   console.log("");
 }
 

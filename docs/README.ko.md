@@ -36,7 +36,6 @@ flowbook skill <agent> [-g]  AI 에이전트 스킬 & /flowbook 명령 설치
 
 - `package.json`에 `"flowbook"`, `"build-flowbook"` 스크립트를 추가합니다
 - `flows/example.flow.md` 예제 템플릿을 생성합니다
-- 지원하는 모든 AI 에이전트 디렉토리에 AI 에이전트 스킬을 설치합니다
 
 ### `flowbook dev`
 
@@ -92,7 +91,7 @@ Flowbook은 기본적으로 다음 패턴을 스캔합니다:
 
 ## AI Agent Skill
 
-`flowbook init`은 지원하는 모든 코딩 에이전트 디렉토리에 AI 에이전트 스킬을 자동으로 설치합니다.
+`flowbook skill`을 사용하여 AI 에이전트 스킬과 `/flowbook` 슬래시 커맨드를 설치하세요.
 코딩 에이전트(Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI 등)가 프롬프트에서 **"flowbook"** 키워드를 감지하면 다음을 수행합니다:
 
 1. 코드베이스에서 논리적 흐름 분석 (API 라우트, 인증, 상태 관리, 비즈니스 로직 등)

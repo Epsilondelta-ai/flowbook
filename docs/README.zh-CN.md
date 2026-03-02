@@ -36,7 +36,6 @@ flowbook skill <agent> [-g]  安装 AI 代理技能 & /flowbook 命令
 
 - 在 `package.json` 中添加 `"flowbook"` 和 `"build-flowbook"` 脚本
 - 创建 `flows/example.flow.md` 作为入门模板
-- 将 AI 代理技能安装到所有支持的代理目录
 
 ### `flowbook dev`
 
@@ -92,7 +91,7 @@ Flowbook 默认扫描以下模式：
 
 ## AI Agent Skill
 
-`flowbook init` 自动将 AI 代理技能安装到所有支持的编码代理目录中。
+使用 `flowbook skill` 安装 AI 代理技能和 `/flowbook` 斜杠命令。
 当编码代理（Claude Code、OpenAI Codex、VS Code Copilot、Cursor、Gemini CLI 等）检测到你的提示中有 **"flowbook"** 关键字时，它会：
 
 1. 分析你的代码库中的逻辑流（API 路由、认证、状态管理、业务逻辑等）

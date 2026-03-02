@@ -36,7 +36,6 @@ flowbook skill <agent> [-g]  KI-Agent-Fähigkeit & /flowbook-Befehl installieren
 
 - Fügt die Skripte `"flowbook"` und `"build-flowbook"` zu Ihrer `package.json` hinzu
 - Erstellt `flows/example.flow.md` als Startvorlage
-- Installiert KI-Agent-Fähigkeiten in alle unterstützten Agent-Verzeichnisse
 
 ### `flowbook dev`
 
@@ -92,7 +91,7 @@ Ignoriert `node_modules/`, `.git/` und `dist/`.
 
 ## KI-Agent-Fähigkeit
 
-`flowbook init` installiert automatisch KI-Agent-Fähigkeiten in alle unterstützten Codierungs-Agent-Verzeichnisse.
+Verwenden Sie `flowbook skill`, um KI-Agent-Fähigkeiten und `/flowbook`-Befehle zu installieren.
 Wenn ein Codierungs-Agent (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI usw.) das Schlüsselwort **"flowbook"** in Ihrer Eingabeaufforderung erkennt, wird er:
 
 1. Ihre Codebasis auf logische Abläufe analysieren (API-Routen, Authentifizierung, Zustandsverwaltung, Geschäftslogik usw.)

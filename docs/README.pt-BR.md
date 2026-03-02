@@ -36,7 +36,6 @@ flowbook skill <agent> [-g]  Instalar habilidade de agente IA & comando /flowboo
 
 - Adiciona os scripts `"flowbook"` e `"build-flowbook"` ao seu `package.json`
 - Cria `flows/example.flow.md` como template inicial
-- Instala habilidades de agente IA em todos os diretórios de agentes suportados
 
 ### `flowbook dev`
 
@@ -92,7 +91,7 @@ Ignora `node_modules/`, `.git/` e `dist/`.
 
 ## Habilidade de Agente IA
 
-`flowbook init` instala automaticamente habilidades de agente IA em todos os diretórios de agentes de codificação suportados.
+Use `flowbook skill` para instalar habilidades de agente IA e comandos `/flowbook`.
 Quando um agente de codificação (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI, etc.) detecta a palavra-chave **"flowbook"** no seu prompt, ele irá:
 
 1. Analisar sua base de código em busca de fluxos lógicos (rotas de API, autenticação, gerenciamento de estado, lógica de negócios, etc.)

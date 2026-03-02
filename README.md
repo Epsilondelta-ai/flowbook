@@ -37,7 +37,6 @@ flowbook skill <agent> [-g]  Install AI agent skill & /flowbook command
 
 - Adds `"flowbook"` and `"build-flowbook"` scripts to your `package.json`
 - Creates `flows/example.flow.md` as a starter template
-- Installs AI agent skills to all supported agent directories
 
 ### `flowbook dev`
 
@@ -93,7 +92,7 @@ Ignores `node_modules/`, `.git/`, and `dist/`.
 
 ## AI Agent Skill
 
-`flowbook init` automatically installs AI agent skills to all supported coding agent directories.
+Use `flowbook skill` to install AI agent skills and `/flowbook` slash commands for your coding agents.
 When a coding agent (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI, etc.) detects the keyword **"flowbook"** in your prompt, it will:
 
 1. Analyze your codebase for logical flows (API routes, auth, state management, business logic, etc.)
