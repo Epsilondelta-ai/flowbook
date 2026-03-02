@@ -2,15 +2,27 @@
 
 :root {
   color-scheme: dark;
+  --fb-bg-outer: #0b0e17;
+  --fb-bg-window: #111827;
+  --fb-bg-titlebar: #161b28;
+  --fb-bg-content: #131a2b;
+  --fb-bg-sidebar: #111827;
+  --fb-border: #1e293b;
+  --fb-text-primary: #e2e8f0;
+  --fb-text-secondary: #94a3b8;
+  --fb-text-muted: #64748b;
+  --fb-accent-green: #4ade80;
+  --fb-accent-violet: #8b5cf6;
 }
 
 body {
   margin: 0;
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--fb-bg-outer);
 }
 
 /* Mermaid SVG sizing */
@@ -30,10 +42,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #1e293b;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #334155;
 }

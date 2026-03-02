@@ -2,12 +2,11 @@ import { useState, useMemo } from "react";
 import data from "virtual:flowbook-data";
 import { Sidebar } from "./components/Sidebar";
 import { FlowView } from "./components/FlowView";
-import { Header } from "./components/Header";
 import { EmptyState } from "./components/EmptyState";
 
 export function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery] = useState("");
 
   const filteredFlows = useMemo(() => {
     if (!searchQuery) return data.flows;
@@ -27,25 +26,35 @@ export function App() {
   );
 
   return (
-    <div className="h-screen flex flex-col bg-zinc-950 text-zinc-100">
-      <Header
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        flowCount={data.flows.length}
-      />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar
-          flows={filteredFlows}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-        />
-        <main className="flex-1 overflow-auto">
-          {selectedFlow ? (
-            <FlowView flow={selectedFlow} />
-          ) : (
-            <EmptyState flowCount={data.flows.length} />
-          )}
-        </main>
+    <div className="h-screen flex items-center justify-center p-6" style={{ background: 'var(--fb-bg-outer)' }}>
+      <div className="w-full max-w-6xl rounded-xl overflow-hidden shadow-2xl" style={{ background: 'var(--fb-bg-window)', border: '1px solid var(--fb-border)' }}>
+        {/* macOS-style title bar */}
+        <div className="flex items-center px-4 py-3 border-b" style={{ background: 'var(--fb-bg-titlebar)', borderColor: 'var(--fb-border)' }}>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+            <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+            <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
+          </div>
+          <span className="ml-4 text-sm font-mono" style={{ color: 'var(--fb-text-muted)' }}>
+            flowbook — localhost:6200
+          </span>
+        </div>
+
+        {/* Content area */}
+        <div className="flex" style={{ height: '520px' }}>
+          <Sidebar
+            flows={filteredFlows}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+          />
+          <main className="flex-1 overflow-auto" style={{ background: 'var(--fb-bg-content)' }}>
+            {selectedFlow ? (
+              <FlowView flow={selectedFlow} />
+            ) : (
+              <EmptyState flowCount={data.flows.length} />
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
