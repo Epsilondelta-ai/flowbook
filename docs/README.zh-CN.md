@@ -35,7 +35,6 @@ flowbook skill <agent> [-g]  安装 AI 代理技能 & /flowbook 命令
 ### `flowbook init`
 
 - 在 `package.json` 中添加 `"flowbook"` 和 `"build-flowbook"` 脚本
-- 创建 `flows/example.flow.md` 作为入门模板
 
 ### `flowbook dev`
 

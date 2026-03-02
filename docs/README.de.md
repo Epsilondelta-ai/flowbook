@@ -35,7 +35,6 @@ flowbook skill <agent> [-g]  KI-Agent-Fähigkeit & /flowbook-Befehl installieren
 ### `flowbook init`
 
 - Fügt die Skripte `"flowbook"` und `"build-flowbook"` zu Ihrer `package.json` hinzu
-- Erstellt `flows/example.flow.md` als Startvorlage
 
 ### `flowbook dev`
 

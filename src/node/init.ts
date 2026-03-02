@@ -1,25 +1,6 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { execSync } from "node:child_process";
-
-
-const EXAMPLE_FLOW = `---
-title: Example Flow
-category: Getting Started
-tags: [example]
-order: 1
-description: An example flowchart to get you started
----
-
-\`\`\`mermaid
-flowchart TD
-    A[Start] --> B{Decision}
-    B -->|Yes| C[Action A]
-    B -->|No| D[Action B]
-    C --> E[End]
-    D --> E
-\`\`\`
-`;
 
 export async function initFlowbook() {
   const cwd = process.cwd();
@@ -62,18 +43,6 @@ export async function initFlowbook() {
     console.log('  ✓ Added "flowbook" and "build-flowbook" scripts to package.json');
   } else {
     console.log("  ✓ Scripts already exist in package.json");
-  }
-
-  // 3. Create example flow file
-  const flowsDir = resolve(cwd, "flows");
-  const examplePath = resolve(flowsDir, "example.flow.md");
-
-  if (!existsSync(examplePath)) {
-    mkdirSync(flowsDir, { recursive: true });
-    writeFileSync(examplePath, EXAMPLE_FLOW);
-    console.log("  ✓ Created flows/example.flow.md");
-  } else {
-    console.log("  ✓ Example flow already exists");
   }
 
   // 4. Add flowbook-static to .gitignore

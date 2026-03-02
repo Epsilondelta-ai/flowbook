@@ -35,7 +35,6 @@ flowbook skill <agent> [-g]  Installer la compétence d'agent IA & la commande /
 ### `flowbook init`
 
 - Ajoute les scripts `"flowbook"` et `"build-flowbook"` à votre `package.json`
-- Crée `flows/example.flow.md` comme modèle de départ
 
 ### `flowbook dev`
 

@@ -36,7 +36,6 @@ flowbook skill <agent> [-g]  Install AI agent skill & /flowbook command
 ### `flowbook init`
 
 - Adds `"flowbook"` and `"build-flowbook"` scripts to your `package.json`
-- Creates `flows/example.flow.md` as a starter template
 
 ### `flowbook dev`
 

@@ -35,7 +35,6 @@ flowbook skill <agent> [-g]  AI 에이전트 스킬 & /flowbook 명령 설치
 ### `flowbook init`
 
 - `package.json`에 `"flowbook"`, `"build-flowbook"` 스크립트를 추가합니다
-- `flows/example.flow.md` 예제 템플릿을 생성합니다
 
 ### `flowbook dev`
 
