@@ -14,8 +14,15 @@ flowchart TD
     B --> E[[API Call]]
     B --> F[[Cache]]
 
-    classDef success fill:#2d5a3f,stroke:#3d7a4f,color:#a7f3d0
-    classDef danger fill:#5c2040,stroke:#7a3d5c,color:#fca5a5
+    classDef entry fill:#6366f1,stroke:#818cf8,color:#fff
+    classDef success fill:#10b981,stroke:#34d399,color:#fff
+    classDef error fill:#ef4444,stroke:#f87171,color:#fff
+    classDef validation fill:#f59e0b,stroke:#fbbf24,color:#000
+    classDef external fill:#8b5cf6,stroke:#a78bfa,color:#fff
+
+    class A entry
+    class B validation
     class C success
-    class D danger
+    class D error
+    class E,F external
 ```

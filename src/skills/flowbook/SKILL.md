@@ -318,35 +318,66 @@ flowchart TD
     G -->|Invalid| I[Show Errors]
 ```
 
-#### Styling
+#### Styling — Flow-Group Coloring
 
-Apply consistent colors to node types:
+Color nodes by **logical flow group**, not by shape. Nodes on the same path or serving the same purpose share a color.
+
+**Step 1: Identify flow groups** — Analyze the diagram and group nodes by semantic role:
+- Happy path / success flow
+- Error / failure / rejection path
+- Validation / guard checks
+- External service calls (API, third-party)
+- Data storage operations (DB read/write, cache)
+- User interaction points (input, redirect)
+- Each distinct branch from a decision point
+
+**Step 2: Assign colors using `classDef` + `class`** — One `classDef` per group, then apply with `class`:
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[Process]
-    B --> C{Decision}
-    C -->|Yes| D[(Save to DB)]
-    C -->|No| E[Handle Error]
-    D --> F([End])
-    E --> F
+    A([POST /api/login]) --> B{{"Validate Input"}}
+    B -->|Invalid| C[\400 Bad Request/]
+    B -->|Valid| D[(Find User)]
+    D -->|Not Found| E[\401 Unauthorized/]
+    D -->|Found| F{{Compare Password}}
+    F -->|Mismatch| E
+    F -->|Match| G[Generate Token]
+    G --> H[(Save Token)]
+    H --> I[\200 OK + Token/]
 
-    style A fill:#6366f1,color:#fff
-    style F fill:#6366f1,color:#fff
-    style C fill:#f59e0b,color:#000
-    style D fill:#10b981,color:#fff
-    style E fill:#ef4444,color:#fff
+    classDef entry fill:#6366f1,stroke:#818cf8,color:#fff
+    classDef validation fill:#f59e0b,stroke:#fbbf24,color:#000
+    classDef success fill:#10b981,stroke:#34d399,color:#fff
+    classDef error fill:#ef4444,stroke:#f87171,color:#fff
+    classDef data fill:#3b82f6,stroke:#60a5fa,color:#fff
+
+    class A entry
+    class B,F validation
+    class G,I success
+    class C,E error
+    class D,H data
 ```
 
-**Color convention:**
-- `#6366f1` (indigo) — Start/End points
-- `#10b981` (green) — Success paths, DB operations
-- `#f59e0b` (amber) — Decision points
-- `#ef4444` (red) — Error paths, failures
-- `#8b5cf6` (purple) — External service calls
-- `#3b82f6` (blue) — Processing steps
-- Default (no style) — Regular steps
+**Color palette (assign by flow group, not by shape):**
 
+| Group | Color | Hex | Use When |
+|-------|-------|-----|----------|
+| Entry/Exit | Indigo | `#6366f1` | Start/end points of the flow |
+| Success path | Green | `#10b981` | Happy path, successful operations |
+| Error path | Red | `#ef4444` | Failures, rejections, error responses |
+| Validation | Amber | `#f59e0b` | Guards, checks, decision points that validate |
+| Data ops | Blue | `#3b82f6` | DB reads/writes, cache, storage |
+| External | Purple | `#8b5cf6` | Third-party API calls, external services |
+| User action | Cyan | `#06b6d4` | User-facing interactions, redirects |
+| Processing | Slate | `#64748b` | Internal processing, transformation |
+
+**Rules:**
+- Nodes on the **same logical path** MUST share the same `classDef`
+- A decision node (diamond) gets the color of the **flow group it guards** (e.g., validation diamond → `validation` class)
+- If a node belongs to multiple paths, color it by its **primary purpose**
+- Use `classDef` + `class` (NOT individual `style` per node) — it's cleaner and groups are explicit
+- Keep to 3–5 color groups per diagram. Too many colors defeats the purpose
+- Uncolored nodes use the theme default — only color nodes that benefit from grouping
 #### Subgraphs for Complex Flows
 
 Use subgraphs to group related steps:
@@ -411,14 +442,17 @@ flowchart TD
     I --> J[(Save Refresh Token)]
     J --> K[\200 OK + Tokens/]
 
-    style A fill:#6366f1,color:#fff
-    style C fill:#f59e0b,color:#000
-    style G fill:#f59e0b,color:#000
-    style E fill:#10b981,color:#fff
-    style J fill:#10b981,color:#fff
-    style D fill:#ef4444,color:#fff
-    style F fill:#ef4444,color:#fff
-    style K fill:#10b981,color:#fff
+    classDef entry fill:#6366f1,stroke:#818cf8,color:#fff
+    classDef validation fill:#f59e0b,stroke:#fbbf24,color:#000
+    classDef success fill:#10b981,stroke:#34d399,color:#fff
+    classDef error fill:#ef4444,stroke:#f87171,color:#fff
+    classDef data fill:#3b82f6,stroke:#60a5fa,color:#fff
+
+    class A entry
+    class B,C,G validation
+    class H,I,K success
+    class D,F error
+    class E,J data
 ```
 ````
 
