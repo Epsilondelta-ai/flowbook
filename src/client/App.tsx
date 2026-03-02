@@ -6,7 +6,7 @@ import { EmptyState } from "./components/EmptyState";
 
 export function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [searchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredFlows = useMemo(() => {
     if (!searchQuery) return data.flows;
@@ -38,14 +38,18 @@ export function App() {
           <span className="ml-4 text-sm font-mono" style={{ color: 'var(--fb-text-muted)' }}>
             flowbook — localhost:6200
           </span>
+          <span className="ml-auto text-sm font-mono" style={{ color: 'var(--fb-text-muted)' }}>
+            {data.flows.length} flows
+          </span>
         </div>
-
         {/* Content area */}
         <div className="flex" style={{ height: '520px' }}>
           <Sidebar
             flows={filteredFlows}
             selectedId={selectedId}
             onSelect={setSelectedId}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
           />
           <main className="flex-1 overflow-auto" style={{ background: 'var(--fb-bg-content)' }}>
             {selectedFlow ? (

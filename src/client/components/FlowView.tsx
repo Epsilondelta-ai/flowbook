@@ -8,10 +8,22 @@ interface FlowViewProps {
 export function FlowView({ flow }: FlowViewProps) {
   return (
     <div className="p-8 max-w-5xl mx-auto">
-      {/* Title */}
-      <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--fb-text-primary)' }}>
-        {flow.title}
-      </h1>
+      {/* Title + Category badge */}
+      <div className="flex items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--fb-text-primary)' }}>
+          {flow.title}
+        </h1>
+        <span
+          className="px-2.5 py-0.5 rounded-md text-xs font-medium"
+          style={{
+            background: 'rgba(99, 102, 241, 0.12)',
+            color: '#818cf8',
+            border: '1px solid rgba(99, 102, 241, 0.2)',
+          }}
+        >
+          {flow.category}
+        </span>
+      </div>
 
       {/* Description */}
       {flow.description && (
