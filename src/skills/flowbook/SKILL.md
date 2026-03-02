@@ -275,6 +275,37 @@ flowchart TD
     I[\Output\]             %% Reverse parallelogram: response
 ```
 
+#### Label Quoting Rules (MANDATORY)
+
+Node labels containing special characters **MUST** be wrapped in double quotes to prevent Mermaid parse errors.
+
+**Characters that REQUIRE quoting:**
+
+| Character | Why it breaks | Unquoted (BROKEN) | Quoted (CORRECT) |
+|-----------|--------------|-------------------|------------------|
+| `()` | Conflicts with `([...])` stadium and `(...)` rounded shapes | `A([Agent run() Start])` | `A(["Agent run() Start"])` |
+| `{}` | Conflicts with `{...}` diamond shape | `B{tokio::select!{}}` | `B{"tokio::select!{}"}` |
+| `[]` | Conflicts with `[...]` rectangle shape | `C[arr[0] value]` | `C["arr[0] value"]` |
+| `::` | Interpreted as Mermaid class/namespace syntax | `D[std::io::Error]` | `D["std::io::Error"]` |
+| `#` | Interpreted as Unicode escape or comment | `E[Issue #42]` | `E["Issue #42"]` |
+| `&` | Interpreted as HTML entity start | `F[A & B]` | `F["A & B"]` |
+
+**Rule: When in doubt, quote it.** Quoting a label that doesn't need it causes no harm. Unquoted special characters WILL break rendering.
+
+**Examples of correct quoting by node shape:**
+
+```mermaid
+flowchart TD
+    A(["fn main() entry"])         %% Stadium with parens
+    B["process_data(input)"]       %% Rectangle with parens
+    C{"is_valid(x)?"}              %% Diamond with parens
+    D[["handle_error(err)"]]       %% Subroutine with parens
+    E{{"validate(req)"}}           %% Hexagon with parens
+    F["Config::new()"]             %% Rectangle with double colon
+```
+
+**NEVER generate unquoted labels containing `()`, `{}`, `[]`, `::`, `#`, or `&`.**
+
 #### Edge Labels
 
 ```mermaid
@@ -369,7 +400,7 @@ description: POST /api/auth/login — validates credentials and returns JWT toke
 ```mermaid
 flowchart TD
     A([POST /api/auth/login]) --> B[/Parse Request Body/]
-    B --> C{{Validate Email & Password}}
+    B --> C{{"Validate Email & Password"}}
     C -->|Invalid| D[\400 Bad Request/]
     C -->|Valid| E[(Find User by Email)]
     E -->|Not Found| F[\401 Unauthorized/]
@@ -402,6 +433,16 @@ For each generated `.flow.md` file:
 1. Verify YAML frontmatter is valid (title, category present)
 2. Verify mermaid code block is properly fenced (``` mermaid ```)
 3. Verify mermaid syntax has no obvious errors (matched brackets, valid node IDs)
+4. **Special Character Validation (CRITICAL)**: Scan ALL node labels for unquoted special characters:
+   - `()` inside any node shape → MUST be quoted: `A(["label()"])` not `A([label()])`
+   - `{}` inside any node shape → MUST be quoted: `A{"label{}"}` not `A{label{}}`
+   - `[]` inside any node shape → MUST be quoted: `A["label[]"]` not `A[label[]]`
+   - `::` anywhere in labels → MUST be quoted: `A["std::io"]` not `A[std::io]`
+   - `#` anywhere in labels → MUST be quoted: `A["Issue #1"]` not `A[Issue #1]`
+   - `&` anywhere in labels → MUST be quoted: `A["A & B"]` not `A[A & B]`
+   - If ANY unquoted special characters are found, fix them BEFORE proceeding to build
+5. Verify all node IDs are unique within each diagram
+6. Verify subgraph labels don't contain special characters
 
 ### 5.2 Build Verification
 
@@ -483,6 +524,12 @@ Build: ✅ / ❌
 ### Mermaid syntax errors
 - **Brackets**: Every `[`, `{`, `(` must be closed
 - **Special characters in labels**: Wrap in double quotes: `A["User's Input"]`
+- **Parentheses in labels** (MOST COMMON): `A([run() Start])` → Parse error. Fix: `A(["run() Start"])`
+- **Double colons in labels**: `A[std::io::Error]` → Interpreted as class syntax. Fix: `A["std::io::Error"]`
+- **Curly braces in labels**: `B{select!{}}` → Conflicts with diamond shape. Fix: `B{"select!{}"}` 
+- **Square brackets in labels**: `C[arr[0]]` → Conflicts with rectangle shape. Fix: `C["arr[0]"]`
+- **Hash in labels**: `D[Issue #42]` → Unicode escape. Fix: `D["Issue #42"]`
+- **Ampersand in labels**: `E[A & B]` → HTML entity. Fix: `E["A & B"]`
 - **Arrow syntax**: Use `-->` for solid, `-.->` for dotted, `==>` for thick
 - **Node ID reuse**: Each node ID must be unique per diagram. Reuse ID to reference same node.
 - **Subgraph naming**: Subgraph labels cannot contain special characters
