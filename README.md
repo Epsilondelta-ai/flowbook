@@ -99,47 +99,15 @@ When a coding agent (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini 
 3. Generate `.flow.md` files with Mermaid diagrams for every significant flow
 4. Verify the build
 
-### Manual Skill Installation
+### Install Skill via CLI
 
-If you didn't use `flowbook init`, copy the skill manually:
+You can also install the skill standalone using [skills.sh](https://skills.sh):
 
 ```bash
-# Claude Code
-mkdir -p .claude/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
-
-# OpenAI Codex
-mkdir -p .agents/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
-
-# VS Code / GitHub Copilot
-mkdir -p .github/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
-
-# Google Antigravity
-mkdir -p .agent/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
-
-# Gemini CLI
-mkdir -p .gemini/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
-
-# Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
-
-# Windsurf (Codeium)
-mkdir -p .windsurf/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
-
-# AmpCode
-mkdir -p .amp/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
-
-# OpenCode / oh-my-opencode
-mkdir -p .opencode/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+npx skills add Epsilondelta-ai/flowbook
 ```
+
+This auto-detects your installed coding agents and installs the skill to the correct directories.
 
 ### Compatible Agents
 
@@ -155,6 +123,24 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
 | AmpCode | `.amp/skills/flowbook/SKILL.md` |
 | OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
 
+<details>
+<summary>Manual Skill Installation</summary>
+
+If you didn't use `flowbook init` or `npx skills add`, copy the skill manually:
+
+```bash
+# Example: Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# Example: Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+```
+
+Replace the directory with the appropriate path from the Compatible Agents table above.
+
+</details>
 ## How It Works
 
 ```

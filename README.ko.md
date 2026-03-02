@@ -99,47 +99,15 @@ Flowbook은 기본적으로 다음 패턴을 스캔합니다:
 3. 모든 중요한 흐름에 대해 Mermaid 다이어그램이 포함된 `.flow.md` 파일 생성
 4. 빌드 검증
 
-### 수동 스킬 설치
+### CLI로 스킬 설치
 
-`flowbook init`을 사용하지 않았다면 스킬을 수동으로 복사하세요:
+[skills.sh](https://skills.sh)를 사용하여 스킬을 독립적으로 설치할 수도 있습니다:
 
 ```bash
-# Claude Code
-mkdir -p .claude/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
-
-# OpenAI Codex
-mkdir -p .agents/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
-
-# VS Code / GitHub Copilot
-mkdir -p .github/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
-
-# Google Antigravity
-mkdir -p .agent/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
-
-# Gemini CLI
-mkdir -p .gemini/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
-
-# Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
-
-# Windsurf (Codeium)
-mkdir -p .windsurf/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
-
-# AmpCode
-mkdir -p .amp/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
-
-# OpenCode / oh-my-opencode
-mkdir -p .opencode/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+npx skills add Epsilondelta-ai/flowbook
 ```
+
+설치된 코딩 에이전트를 자동 감지하여 올바른 디렉토리에 스킬을 설치합니다.
 
 ### 호환 에이전트
 
@@ -155,6 +123,24 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
 | AmpCode | `.amp/skills/flowbook/SKILL.md` |
 | OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
 
+<details>
+<summary>수동 스킬 설치</summary>
+
+`flowbook init`이나 `npx skills add`를 사용하지 않았다면 스킬을 수동으로 복사하세요:
+
+```bash
+# 예시: Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# 예시: Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+```
+
+위 호환 에이전트 테이블의 경로를 참고하여 적절한 디렉토리로 교체하세요.
+
+</details>
 ## 동작 원리
 
 ```

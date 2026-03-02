@@ -94,52 +94,20 @@ Flowbook はデフォルトで以下のパターンをスキャンします：
 `flowbook init` はサポートされているすべてのコーディングエージェントディレクトリに AI エージェントスキルを自動的にインストールします。
 コーディングエージェント（Claude Code、OpenAI Codex、VS Code Copilot、Cursor、Gemini CLI など）がプロンプト内の **"flowbook"** キーワードを検出した場合、以下を実行します：
 
-1. コードベース内の論理的なフローを分析（API ルート、認証、状态管理、ビジネスロジックなど）
+1. コードベース内の論理的なフローを分析（API ルート、認証、状態管理、ビジネスロジックなど）
 2. まだ初期化されていない場合、Flowbook を設定
 3. すべての重要なフローに対して Mermaid ダイアグラム付き `.flow.md` ファイルを生成
 4. ビルドを検証
 
-### 手動スキルインストール
+### CLI でスキルをインストール
 
-`flowbook init` を使用しなかった場合、スキルを手動でコピーしてください：
+[skills.sh](https://skills.sh) を使用してスキルを単独でインストールすることもできます：
 
 ```bash
-# Claude Code
-mkdir -p .claude/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
-
-# OpenAI Codex
-mkdir -p .agents/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
-
-# VS Code / GitHub Copilot
-mkdir -p .github/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
-
-# Google Antigravity
-mkdir -p .agent/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
-
-# Gemini CLI
-mkdir -p .gemini/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
-
-# Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
-
-# Windsurf (Codeium)
-mkdir -p .windsurf/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
-
-# AmpCode
-mkdir -p .amp/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
-
-# OpenCode / oh-my-opencode
-mkdir -p .opencode/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+npx skills add Epsilondelta-ai/flowbook
 ```
+
+インストール済みのコーディングエージェントを自動検出し、適切なディレクトリにスキルをインストールします。
 
 ### 互換性のあるエージェント
 
@@ -155,6 +123,24 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
 | AmpCode | `.amp/skills/flowbook/SKILL.md` |
 | OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
 
+<details>
+<summary>手動スキルインストール</summary>
+
+`flowbook init` や `npx skills add` を使用しなかった場合、スキルを手動でコピーしてください：
+
+```bash
+# 例：Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# 例：Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+```
+
+上の互換性テーブルのパスを参考に、適切なディレクトリに置き換えてください。
+
+</details>
 ## 仕組み
 
 ```

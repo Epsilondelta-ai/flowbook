@@ -99,47 +99,15 @@ Quando um agente de codificação (Claude Code, OpenAI Codex, VS Code Copilot, C
 3. Gerar arquivos `.flow.md` com diagramas Mermaid para cada fluxo significativo
 4. Verificar a compilação
 
-### Instalação Manual de Habilidade
+### Instalar Habilidade via CLI
 
-Se você não usou `flowbook init`, copie a habilidade manualmente:
+Você também pode instalar a habilidade de forma independente usando [skills.sh](https://skills.sh):
 
 ```bash
-# Claude Code
-mkdir -p .claude/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
-
-# OpenAI Codex
-mkdir -p .agents/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
-
-# VS Code / GitHub Copilot
-mkdir -p .github/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
-
-# Google Antigravity
-mkdir -p .agent/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
-
-# Gemini CLI
-mkdir -p .gemini/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
-
-# Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
-
-# Windsurf (Codeium)
-mkdir -p .windsurf/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
-
-# AmpCode
-mkdir -p .amp/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
-
-# OpenCode / oh-my-opencode
-mkdir -p .opencode/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+npx skills add Epsilondelta-ai/flowbook
 ```
+
+Detecta automaticamente seus agentes de codificação instalados e instala a habilidade nos diretórios corretos.
 
 ### Agentes Compatíveis
 
@@ -155,6 +123,24 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
 | AmpCode | `.amp/skills/flowbook/SKILL.md` |
 | OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
 
+<details>
+<summary>Instalação Manual de Habilidade</summary>
+
+Se você não usou `flowbook init` nem `npx skills add`, copie a habilidade manualmente:
+
+```bash
+# Exemplo: Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# Exemplo: Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+```
+
+Substitua o diretório pelo caminho apropriado da tabela de Agentes Compatíveis.
+
+</details>
 ## Como Funciona
 
 ```

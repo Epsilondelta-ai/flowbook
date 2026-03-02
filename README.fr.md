@@ -99,47 +99,15 @@ Lorsqu'un agent de codage (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, G
 3. Génère des fichiers `.flow.md` avec des diagrammes Mermaid pour chaque flux significatif
 4. Vérifie la compilation
 
-### Installation Manuelle de Compétence
+### Installer la Compétence via CLI
 
-Si vous n'avez pas utilisé `flowbook init`, copiez la compétence manuellement :
+Vous pouvez aussi installer la compétence indépendamment avec [skills.sh](https://skills.sh) :
 
 ```bash
-# Claude Code
-mkdir -p .claude/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
-
-# OpenAI Codex
-mkdir -p .agents/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
-
-# VS Code / GitHub Copilot
-mkdir -p .github/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
-
-# Google Antigravity
-mkdir -p .agent/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
-
-# Gemini CLI
-mkdir -p .gemini/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
-
-# Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
-
-# Windsurf (Codeium)
-mkdir -p .windsurf/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
-
-# AmpCode
-mkdir -p .amp/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
-
-# OpenCode / oh-my-opencode
-mkdir -p .opencode/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+npx skills add Epsilondelta-ai/flowbook
 ```
+
+Détecte automatiquement vos agents de codage installés et installe la compétence dans les bons répertoires.
 
 ### Agents Compatibles
 
@@ -155,6 +123,24 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
 | AmpCode | `.amp/skills/flowbook/SKILL.md` |
 | OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
 
+<details>
+<summary>Installation Manuelle de Compétence</summary>
+
+Si vous n'avez pas utilisé `flowbook init` ni `npx skills add`, copiez la compétence manuellement :
+
+```bash
+# Exemple : Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# Exemple : Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+```
+
+Remplacez le répertoire par le chemin approprié du tableau des Agents Compatibles.
+
+</details>
 ## Fonctionnement
 
 ```

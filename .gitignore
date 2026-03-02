@@ -3,3 +3,17 @@ dist
 *.local
 .DS_Store
 flowbook-static
+
+# Agent skill directories (created by flowbook init)
+.claude/
+.agents/
+.github/skills/
+.agent/
+.gemini/
+.cursor/
+.windsurf/
+.amp/
+.opencode/
+
+# Local dev artifacts
+flows/
