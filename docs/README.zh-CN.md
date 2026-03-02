@@ -1,6 +1,6 @@
 # Flowbook
 
-> [English](./README.md) | [한국어](./README.ko.md) | **简体中文** | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
+> **[English](../README.md)** | [한국어](./README.ko.md) | **简体中文** | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
 
 流程图的 Storybook。自动发现代码库中的 Mermaid 图表文件，按类别组织，并在可浏览的查看器中渲染。
 

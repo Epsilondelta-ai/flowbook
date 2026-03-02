@@ -1,6 +1,6 @@
 # Flowbook
 
-> [English](./README.md) | [한국어](./README.ko.md) | [简体中文](./README.zh-CN.md) | **日本語** | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
+> **[English](../README.md)** | [한국어](./README.ko.md) | [简体中文](./README.zh-CN.md) | **日本語** | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
 
 フローチャートのための Storybook。コードベースから Mermaid ダイアグラムファイルを自動検出し、カテゴリ別に整理して、ブラウザで閲覧可能なビューアでレンダリングします。
 

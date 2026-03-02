@@ -1,6 +1,6 @@
 # Flowbook
 
-> **[English](./README.md)** | **한국어** | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
+> **[English](../README.md)** | **한국어** | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [Español](./README.es.md) | [Português (BR)](./README.pt-BR.md) | [Français](./README.fr.md) | [Русский](./README.ru.md) | [Deutsch](./README.de.md)
 
 플로우차트를 위한 Storybook. 코드베이스에서 Mermaid 다이어그램 파일을 자동으로 발견하고, 카테고리별로 정리하여 브라우저에서 볼 수 있게 렌더링합니다.
 
