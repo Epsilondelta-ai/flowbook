@@ -121,6 +121,12 @@ export function MermaidRenderer({ code, className }: Props) {
     };
   }, [code, safeId]);
 
+  // Reset zoom & pan when switching to a different diagram
+  useEffect(() => {
+    setScale(1);
+    setPos({ x: 0, y: 0 });
+  }, [code]);
+
   // Wheel zoom (non-passive to allow preventDefault)
   useEffect(() => {
     const el = containerRef.current;
