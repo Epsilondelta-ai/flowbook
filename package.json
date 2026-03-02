@@ -3,7 +3,7 @@
   "version": "0.2.5",
   "type": "module",
   "bin": {
-    "flowbook": "./dist/cli.js"
+    "flowbook": "dist/cli.js"
   },
   "files": [
     "dist",
