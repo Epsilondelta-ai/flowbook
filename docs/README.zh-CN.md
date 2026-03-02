@@ -30,12 +30,13 @@ npm run build-flowbook
 flowbook init                在项目中设置 Flowbook
 flowbook dev  [--port 6200]  启动开发服务器
 flowbook build [--out-dir d] 构建静态站点
-```
+flowbook skill <agent> [-g]  安装 AI 代理技能 & /flowbook 命令
 
 ### `flowbook init`
 
 - 在 `package.json` 中添加 `"flowbook"` 和 `"build-flowbook"` 脚本
 - 创建 `flows/example.flow.md` 作为入门模板
+- 将 AI 代理技能安装到所有支持的代理目录
 
 ### `flowbook dev`
 
@@ -99,56 +100,77 @@ Flowbook 默认扫描以下模式：
 3. 为每个重要流程生成包含 Mermaid 图表的 `.flow.md` 文件
 4. 验证构建
 
-### 通过 CLI 安装技能
+### `flowbook skill`
+
+为特定代理安装技能和 `/flowbook` 斩斗命令：
+
+```bash
+# 为特定代理安装（项目级别）
+flowbook skill opencode
+flowbook skill claude
+flowbook skill cursor
+
+# 为所有代理安装
+flowbook skill all
+
+# 全局安装（在所有项目中可用）
+flowbook skill opencode -g
+flowbook skill all --global
+```
+
+✅ **安装的内容：**
+
+| 组件 | 描述 |
+|-----------|-------------|
+| **技能** (`SKILL.md`) | 当你在提示中提到 "flowbook" 时自动触发 |
+| **斩斗命令** (`/flowbook`) | 显式触发 — 输入 `/flowbook` 以生成流程图 |
+
+斩斗命令仅对支持它们的代理安装：**Claude Code**、**Cursor**、**Windsurf**、**OpenCode**。
+
+### 通过 skills.sh 安装
 
 你也可以使用 [skills.sh](https://skills.sh) 独立安装技能：
 
 ```bash
+# 项目级别
 npx skills add Epsilondelta-ai/flowbook
-```
 
-自动检测已安装的编码代理并将技能安装到正确的目录。
-
-### 全局安装
-
-要在所有项目中都可使用技能，请全局安装：
-
-```bash
+# 全局
 npx skills add -g Epsilondelta-ai/flowbook
 ```
 
-这会将技能安装到每个代理的全局目录（例如 `~/.claude/skills/`、`~/.config/opencode/skills/` 等）。
+> **注意：** `npx skills add` 仅安装技能 (SKILL.md)。要也安装 `/flowbook` 斩斗命令，请使用 `flowbook skill`。
 
-### 兼容代理
+### 支持的代理
 
-| 代理 | 技能位置 |
-|-------|---------------|
-| Claude Code | `.claude/skills/flowbook/SKILL.md` |
-| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
-| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
-| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
-| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
-| Cursor | `.cursor/skills/flowbook/SKILL.md` |
-| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
-| AmpCode | `.amp/skills/flowbook/SKILL.md` |
-| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+| 代理 | 技能 | 斩斗命令 |
+|-------|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` | `.claude/commands/flowbook.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` | — |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` | — |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` | — |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` | — |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` | `.cursor/commands/flowbook.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` | `.windsurf/workflows/flowbook.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` | — |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` | `.opencode/command/flowbook.md` |
 
 <details>
-<summary>手动技能安装</summary>
+<summary>手动安装</summary>
 
-如果你没有使用 `flowbook init` 或 `npx skills add`，请手动复制技能：
+如果你没有使用 `flowbook skill` 或 `npx skills add`，请手动复制文件：
 
 ```bash
-# 示例：Claude Code
+# 技能
 mkdir -p .claude/skills/flowbook
 cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
 
-# 示例：Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+# 斩斗命令 (Claude Code)
+mkdir -p .claude/commands
+cp node_modules/flowbook/src/commands/flowbook.md .claude/commands/
 ```
 
-请参考上方兼容代理表格中的路径替换为适当的目录。
+请使用上表中的適當路徑替換目錄。
 
 </details>
 ## 工作原理
@@ -175,12 +197,19 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
 src/
 ├── types.ts                    # 共享类型 (FlowEntry, FlowbookData)
 ├── node/
-│   ├── cli.ts                  # CLI 入口 (init, dev, build)
-│   ├── server.ts               # 编程式 Vite 服务器与构建
+│   ├── cli.ts                  # CLI 入口 (init, dev, build, skill)
+│   ├── server.ts               # 编程式 Vite 服务器 & 构建
 │   ├── init.ts                 # 项目初始化逻辑
+│   ├── skill.ts                # AI 代理技能 & 命令安装程序
 │   ├── discovery.ts            # 文件扫描器 (fast-glob)
 │   ├── parser.ts               # Frontmatter + mermaid 提取
 │   └── plugin.ts               # Vite 虚拟模块插件
+├── skills/
+│   └── flowbook/
+│       └── SKILL.md            # AI 代理技能定义
+├── commands/
+│   ├── flowbook.md             # 斩斗命令 (frontmatter 格式)
+│   └── flowbook.plain.md       # 斩斗命令 (纯 markdown 格式)
 └── client/
     ├── index.html              # 入口 HTML
     ├── main.tsx                # React 入口
@@ -192,7 +221,7 @@ src/
         ├── Sidebar.tsx         # 可折叠分类树
         ├── MermaidRenderer.tsx # Mermaid 图表渲染
         ├── FlowView.tsx        # 单个流程详情视图
-        └── EmptyState.tsx      # 空状态引导
+        └── EmptyState.tsx      # 空状态指引
 ```
 
 ## 开发（贡献）

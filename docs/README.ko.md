@@ -30,12 +30,13 @@ npm run build-flowbook
 flowbook init                프로젝트에 Flowbook 설정
 flowbook dev  [--port 6200]  개발 서버 실행
 flowbook build [--out-dir d] 정적 사이트 빌드
-```
+flowbook skill <agent> [-g]  AI 에이전트 스킬 & /flowbook 명령 설치
 
 ### `flowbook init`
 
 - `package.json`에 `"flowbook"`, `"build-flowbook"` 스크립트를 추가합니다
 - `flows/example.flow.md` 예제 템플릿을 생성합니다
+- 지원하는 모든 AI 에이전트 디렉토리에 AI 에이전트 스킬을 설치합니다
 
 ### `flowbook dev`
 
@@ -99,56 +100,77 @@ Flowbook은 기본적으로 다음 패턴을 스캔합니다:
 3. 모든 중요한 흐름에 대해 Mermaid 다이어그램이 포함된 `.flow.md` 파일 생성
 4. 빌드 검증
 
-### CLI로 스킬 설치
+### `flowbook skill`
+
+특정 에이전트에 대한 스킬 및 `/flowbook` 슬래시 명령을 설치합니다:
+
+```bash
+# 특정 에이전트에 설치 (프로젝트 레벨)
+flowbook skill opencode
+flowbook skill claude
+flowbook skill cursor
+
+# 모든 에이전트에 설치
+flowbook skill all
+
+# 전역 설치 (모든 프로젝트에서 사용 가능)
+flowbook skill opencode -g
+flowbook skill all --global
+```
+
+**설치되는 항목:**
+
+| 구성 요소 | 설명 |
+|-----------|-------------|
+| **스킬** (`SKILL.md`) | 프롬프트에서 "flowbook"을 언급할 때 자동으로 트리거됨 |
+| **슬래시 명령** (`/flowbook`) | 명시적 트리거 — `/flowbook`을 입력하여 플로우차트 생성 |
+
+슬래시 명령은 이를 지원하는 에이전트에 설치됩니다: **Claude Code**, **Cursor**, **Windsurf**, **OpenCode**.
+
+### skills.sh를 통한 설치
 
 [skills.sh](https://skills.sh)를 사용하여 스킬을 독립적으로 설치할 수도 있습니다:
 
 ```bash
+# 프로젝트 레벨
 npx skills add Epsilondelta-ai/flowbook
-```
 
-설치된 코딩 에이전트를 자동 감지하여 올바른 디렉토리에 스킬을 설치합니다.
-
-### 전역 설치
-
-모든 프로젝트에서 사용할 수 있도록 스킬을 전역으로 설치하려면:
-
-```bash
+# 전역
 npx skills add -g Epsilondelta-ai/flowbook
 ```
 
-각 에이전트의 전역 디렉토리(예: `~/.claude/skills/`, `~/.config/opencode/skills/` 등)에 스킬을 설치합니다.
+> **참고:** `npx skills add`는 스킬만 설치합니다 (SKILL.md). `/flowbook` 슬래시 명령도 설치하려면 `flowbook skill`을 사용하세요.
 
-### 호환 에이전트
+### 지원하는 에이전트
 
-| 에이전트 | 스킬 위치 |
-|-------|---------------|
-| Claude Code | `.claude/skills/flowbook/SKILL.md` |
-| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
-| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
-| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
-| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
-| Cursor | `.cursor/skills/flowbook/SKILL.md` |
-| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
-| AmpCode | `.amp/skills/flowbook/SKILL.md` |
-| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+| 에이전트 | 스킬 | 슬래시 명령 |
+|-------|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` | `.claude/commands/flowbook.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` | — |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` | — |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` | — |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` | — |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` | `.cursor/commands/flowbook.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` | `.windsurf/workflows/flowbook.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` | — |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` | `.opencode/command/flowbook.md` |
 
 <details>
-<summary>수동 스킬 설치</summary>
+<summary>수동 설치</summary>
 
-`flowbook init`이나 `npx skills add`를 사용하지 않았다면 스킬을 수동으로 복사하세요:
+`flowbook skill` 또는 `npx skills add`를 사용하지 않았다면 파일을 수동으로 복사하세요:
 
 ```bash
-# 예시: Claude Code
+# 스킬
 mkdir -p .claude/skills/flowbook
 cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
 
-# 예시: Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+# 슬래시 명령 (Claude Code)
+mkdir -p .claude/commands
+cp node_modules/flowbook/src/commands/flowbook.md .claude/commands/
 ```
 
-위 호환 에이전트 테이블의 경로를 참고하여 적절한 디렉토리로 교체하세요.
+위 테이블의 적절한 경로로 디렉토리를 교체하세요.
 
 </details>
 ## 동작 원리
@@ -175,12 +197,19 @@ cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
 src/
 ├── types.ts                    # 공유 타입 (FlowEntry, FlowbookData)
 ├── node/
-│   ├── cli.ts                  # CLI 진입점 (init, dev, build)
+│   ├── cli.ts                  # CLI 진입점 (init, dev, build, skill)
 │   ├── server.ts               # 프로그래밍 방식 Vite 서버 & 빌드
 │   ├── init.ts                 # 프로젝트 초기화 로직
+│   ├── skill.ts                # AI 에이전트 스킬 & 명령 설치 프로그램
 │   ├── discovery.ts            # 파일 스캐너 (fast-glob)
 │   ├── parser.ts               # 프론트매터 + mermaid 추출
 │   └── plugin.ts               # Vite 가상 모듈 플러그인
+├── skills/
+│   └── flowbook/
+│       └── SKILL.md            # AI 에이전트 스킬 정의
+├── commands/
+│   ├── flowbook.md             # 슬래시 명령 (프론트매터 형식)
+│   └── flowbook.plain.md       # 슬래시 명령 (순수 마크다운 형식)
 └── client/
     ├── index.html              # 진입 HTML
     ├── main.tsx                # React 진입점

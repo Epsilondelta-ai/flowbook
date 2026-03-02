@@ -30,12 +30,13 @@ npm run build-flowbook
 flowbook init                Flowbook im Projekt einrichten
 flowbook dev  [--port 6200]  Entwicklungsserver starten
 flowbook build [--out-dir d] Statische Seite erstellen
-```
+flowbook skill <agent> [-g]  KI-Agent-Fähigkeit & /flowbook-Befehl installieren
 
 ### `flowbook init`
 
 - Fügt die Skripte `"flowbook"` und `"build-flowbook"` zu Ihrer `package.json` hinzu
 - Erstellt `flows/example.flow.md` als Startvorlage
+- Installiert KI-Agent-Fähigkeiten in alle unterstützten Agent-Verzeichnisse
 
 ### `flowbook dev`
 
@@ -99,56 +100,77 @@ Wenn ein Codierungs-Agent (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, G
 3. `.flow.md`-Dateien mit Mermaid-Diagrammen für jeden bedeutenden Ablauf generieren
 4. Den Build überprüfen
 
-### Fähigkeit über CLI installieren
+### `flowbook skill`
+
+Installiert Fähigkeiten und `/flowbook`-Befehle für bestimmte Agenten:
+
+```bash
+# Für einen bestimmten Agent installieren (Projektebene)
+flowbook skill opencode
+flowbook skill claude
+flowbook skill cursor
+
+# Für alle Agenten installieren
+flowbook skill all
+
+# Global installieren (in allen Projekten verfügbar)
+flowbook skill opencode -g
+flowbook skill all --global
+```
+
+**Was wird installiert:**
+
+| Komponente | Beschreibung |
+|-----------|-------------|
+| **Fähigkeit** (`SKILL.md`) | Wird automatisch aktiviert, wenn Sie "flowbook" in Eingabeaufforderungen erwähnen |
+| **Slash-Befehl** (`/flowbook`) | Explizite Aktivierung — geben Sie `/flowbook` ein, um Flussdiagramme zu generieren |
+
+Slash-Befehle werden für Agenten installiert, die sie unterstützen: **Claude Code**, **Cursor**, **Windsurf**, **OpenCode**.
+
+### Installation über skills.sh
 
 Sie können die Fähigkeit auch eigenständig über [skills.sh](https://skills.sh) installieren:
 
 ```bash
+# Projektebene
 npx skills add Epsilondelta-ai/flowbook
-```
 
-Erkennt automatisch Ihre installierten Codierungs-Agenten und installiert die Fähigkeit in die richtigen Verzeichnisse.
-
-### Globale Installation
-
-Um die Fähigkeit global zu installieren (in allen Projekten verfügbar):
-
-```bash
+# Global
 npx skills add -g Epsilondelta-ai/flowbook
 ```
 
-Installiert die Fähigkeit in das globale Verzeichnis jedes Agenten (z.B. `~/.claude/skills/`, `~/.config/opencode/skills/`, etc.).
+> **Hinweis:** `npx skills add` installiert nur Fähigkeiten (SKILL.md). Verwenden Sie `flowbook skill`, um auch `/flowbook`-Befehle zu installieren.
 
-### Kompatible Agenten
+### Unterstützte Agenten
 
-| Agent | Fähigkeitsort |
-|-------|---------------|
-| Claude Code | `.claude/skills/flowbook/SKILL.md` |
-| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
-| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
-| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
-| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
-| Cursor | `.cursor/skills/flowbook/SKILL.md` |
-| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
-| AmpCode | `.amp/skills/flowbook/SKILL.md` |
-| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+| Agent | Fähigkeit | Slash-Befehl |
+|-------|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` | `.claude/commands/flowbook.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` | — |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` | — |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` | — |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` | — |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` | `.cursor/commands/flowbook.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` | `.windsurf/workflows/flowbook.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` | — |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` | `.opencode/command/flowbook.md` |
 
 <details>
-<summary>Manuelle Fähigkeitsinstallation</summary>
+<summary>Manuelle Installation</summary>
 
-Wenn Sie `flowbook init` oder `npx skills add` nicht verwendet haben, kopieren Sie die Fähigkeit manuell:
+Wenn Sie `flowbook skill` oder `npx skills add` nicht verwendet haben, kopieren Sie die Dateien manuell:
 
 ```bash
-# Beispiel: Claude Code
+# Fähigkeit
 mkdir -p .claude/skills/flowbook
 cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
 
-# Beispiel: Cursor
-mkdir -p .cursor/skills/flowbook
-cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+# Slash-Befehl (Claude Code)
+mkdir -p .claude/commands
+cp node_modules/flowbook/src/commands/flowbook.md .claude/commands/
 ```
 
-Ersetzen Sie das Verzeichnis durch den entsprechenden Pfad aus der Tabelle der kompatiblen Agenten.
+Ersetzen Sie die Verzeichnisse durch die entsprechenden Pfade aus der obigen Tabelle.
 
 </details>
 ## Funktionsweise
@@ -175,12 +197,19 @@ Ersetzen Sie das Verzeichnis durch den entsprechenden Pfad aus der Tabelle der k
 src/
 ├── types.ts                    # Gemeinsame Typen (FlowEntry, FlowbookData)
 ├── node/
-│   ├── cli.ts                  # CLI-Einstiegspunkt (init, dev, build)
+│   ├── cli.ts                  # CLI-Einstiegspunkt (init, dev, build, skill)
 │   ├── server.ts               # Programmatischer Vite-Server & Build
 │   ├── init.ts                 # Projekt-Initialisierungslogik
+│   ├── skill.ts                # KI-Agent-Fähigkeit & Befehls-Installer
 │   ├── discovery.ts            # Datei-Scanner (fast-glob)
 │   ├── parser.ts               # Frontmatter + Mermaid-Extraktion
 │   └── plugin.ts               # Vite-Plugin für virtuelles Modul
+├── skills/
+│   └── flowbook/
+│       └── SKILL.md            # KI-Agent-Fähigkeitsdefinition
+├── commands/
+│   ├── flowbook.md             # Slash-Befehl (Frontmatter-Format)
+│   └── flowbook.plain.md       # Slash-Befehl (reines Markdown-Format)
 └── client/
     ├── index.html              # Einstiegs-HTML
     ├── main.tsx                # React-Einstiegspunkt

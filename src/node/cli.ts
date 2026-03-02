@@ -1,5 +1,6 @@
 import { initFlowbook } from "./init";
 import { startDevServer, buildStatic } from "./server";
+import { installSkills, printSkillUsage } from "./skill";
 
 async function main() {
   const args = process.argv.slice(2);
@@ -19,6 +20,17 @@ async function main() {
     case "build": {
       const outDir = String(getFlag(args, "--out-dir", "flowbook-static"));
       await buildStatic({ outDir });
+      break;
+    }
+
+    case "skill": {
+      const agent = args[1];
+      if (!agent) {
+        printSkillUsage();
+        break;
+      }
+      const isGlobal = args.includes("--global") || args.includes("-g");
+      installSkills(agent, isGlobal);
       break;
     }
 
@@ -46,10 +58,13 @@ function printUsage() {
     flowbook init                Set up Flowbook in your project
     flowbook dev  [--port 6200]  Start the dev server
     flowbook build [--out-dir d] Build a static site
+    flowbook skill <agent> [-g]  Install AI agent skill & command
 
   Options:
     --port <number>    Dev server port (default: 6200)
     --out-dir <path>   Build output directory (default: flowbook-static)
+
+  Run 'flowbook skill' for agent-specific options.
 `);
 }
 

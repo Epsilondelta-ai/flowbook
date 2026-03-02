@@ -1,9 +1,8 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { resolve } from "node:path";
 import { execSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { installAllProjectSkills } from "./skill";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const EXAMPLE_FLOW = `---
 title: Example Flow
@@ -89,34 +88,11 @@ export async function initFlowbook() {
   }
 
   // 5. Install AI agent skill to all supported agent directories
-  const skillSrc = resolve(__dirname, "..", "src", "skills", "flowbook", "SKILL.md");
-  const skillDirs = [
-    resolve(cwd, ".claude", "skills", "flowbook"),     // Claude Code
-    resolve(cwd, ".agents", "skills", "flowbook"),     // OpenAI Codex / cross-tool alias
-    resolve(cwd, ".github", "skills", "flowbook"),     // VS Code / GitHub Copilot
-    resolve(cwd, ".agent", "skills", "flowbook"),      // Google Antigravity
-    resolve(cwd, ".gemini", "skills", "flowbook"),     // Gemini CLI
-    resolve(cwd, ".cursor", "skills", "flowbook"),     // Cursor
-    resolve(cwd, ".windsurf", "skills", "flowbook"),   // Windsurf (Codeium)
-    resolve(cwd, ".amp", "skills", "flowbook"),        // AmpCode
-    resolve(cwd, ".opencode", "skills", "flowbook"),   // OpenCode / oh-my-opencode
-  ];
-
-  if (existsSync(skillSrc)) {
-    let installed = 0;
-    for (const dir of skillDirs) {
-      const dest = resolve(dir, "SKILL.md");
-      if (!existsSync(dest)) {
-        mkdirSync(dir, { recursive: true });
-        copyFileSync(skillSrc, dest);
-        installed++;
-      }
-    }
-    if (installed > 0) {
-      console.log(`  \u2713 Installed AI agent skill to ${installed} agent directories`);
-    } else {
-      console.log("  \u2713 AI agent skills already installed");
-    }
+  const installed = installAllProjectSkills();
+  if (installed > 0) {
+    console.log(`  ✓ Installed AI agent skill to ${installed} agent directories`);
+  } else {
+    console.log("  ✓ AI agent skills already installed");
   }
 
   const run = pm === "yarn" ? "yarn" : `${pm} run`;
