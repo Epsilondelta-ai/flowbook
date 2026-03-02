@@ -89,6 +89,72 @@ Flowbook 默认扫描以下模式：
 
 忽略 `node_modules/`、`.git/` 和 `dist/`。
 
+## AI Agent Skill
+
+`flowbook init` 自动将 AI 代理技能安装到所有支持的编码代理目录中。
+当编码代理（Claude Code、OpenAI Codex、VS Code Copilot、Cursor、Gemini CLI 等）检测到你的提示中有 **"flowbook"** 关键字时，它会：
+
+1. 分析你的代码库中的逻辑流（API 路由、认证、状态管理、业务逻辑等）
+2. 如果尚未初始化，设置 Flowbook
+3. 为每个重要流程生成包含 Mermaid 图表的 `.flow.md` 文件
+4. 验证构建
+
+### 手动技能安装
+
+如果你没有使用 `flowbook init`，请手动复制技能：
+
+```bash
+# Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# OpenAI Codex
+mkdir -p .agents/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
+
+# VS Code / GitHub Copilot
+mkdir -p .github/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
+
+# Google Antigravity
+mkdir -p .agent/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
+
+# Gemini CLI
+mkdir -p .gemini/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
+
+# Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+
+# Windsurf (Codeium)
+mkdir -p .windsurf/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
+
+# AmpCode
+mkdir -p .amp/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
+
+# OpenCode / oh-my-opencode
+mkdir -p .opencode/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+```
+
+### 兼容代理
+
+| 代理 | 技能位置 |
+|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+
 ## 工作原理
 
 ```

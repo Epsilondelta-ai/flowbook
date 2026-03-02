@@ -89,6 +89,72 @@ Flowbook은 기본적으로 다음 패턴을 스캔합니다:
 
 `node_modules/`, `.git/`, `dist/`는 무시합니다.
 
+## AI Agent Skill
+
+`flowbook init`은 지원하는 모든 코딩 에이전트 디렉토리에 AI 에이전트 스킬을 자동으로 설치합니다.
+코딩 에이전트(Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI 등)가 프롬프트에서 **"flowbook"** 키워드를 감지하면 다음을 수행합니다:
+
+1. 코드베이스에서 논리적 흐름 분석 (API 라우트, 인증, 상태 관리, 비즈니스 로직 등)
+2. 아직 초기화되지 않았으면 Flowbook 설정
+3. 모든 중요한 흐름에 대해 Mermaid 다이어그램이 포함된 `.flow.md` 파일 생성
+4. 빌드 검증
+
+### 수동 스킬 설치
+
+`flowbook init`을 사용하지 않았다면 스킬을 수동으로 복사하세요:
+
+```bash
+# Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# OpenAI Codex
+mkdir -p .agents/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
+
+# VS Code / GitHub Copilot
+mkdir -p .github/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
+
+# Google Antigravity
+mkdir -p .agent/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
+
+# Gemini CLI
+mkdir -p .gemini/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
+
+# Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+
+# Windsurf (Codeium)
+mkdir -p .windsurf/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
+
+# AmpCode
+mkdir -p .amp/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
+
+# OpenCode / oh-my-opencode
+mkdir -p .opencode/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+```
+
+### 호환 에이전트
+
+| 에이전트 | 스킬 위치 |
+|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+
 ## 동작 원리
 
 ```

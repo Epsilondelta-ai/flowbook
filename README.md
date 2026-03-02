@@ -89,6 +89,72 @@ Flowbook scans for these patterns by default:
 
 Ignores `node_modules/`, `.git/`, and `dist/`.
 
+## AI Agent Skill
+
+`flowbook init` automatically installs AI agent skills to all supported coding agent directories.
+When a coding agent (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI, etc.) detects the keyword **"flowbook"** in your prompt, it will:
+
+1. Analyze your codebase for logical flows (API routes, auth, state management, business logic, etc.)
+2. Set up Flowbook if not already initialized
+3. Generate `.flow.md` files with Mermaid diagrams for every significant flow
+4. Verify the build
+
+### Manual Skill Installation
+
+If you didn't use `flowbook init`, copy the skill manually:
+
+```bash
+# Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# OpenAI Codex
+mkdir -p .agents/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
+
+# VS Code / GitHub Copilot
+mkdir -p .github/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
+
+# Google Antigravity
+mkdir -p .agent/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
+
+# Gemini CLI
+mkdir -p .gemini/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
+
+# Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+
+# Windsurf (Codeium)
+mkdir -p .windsurf/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
+
+# AmpCode
+mkdir -p .amp/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
+
+# OpenCode / oh-my-opencode
+mkdir -p .opencode/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+```
+
+### Compatible Agents
+
+| Agent | Skill Location |
+|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+
 ## How It Works
 
 ```

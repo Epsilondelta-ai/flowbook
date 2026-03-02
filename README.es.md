@@ -89,6 +89,72 @@ Flowbook escanea estos patrones por defecto:
 
 Ignora `node_modules/`, `.git/` y `dist/`.
 
+## Habilidad de Agente IA
+
+`flowbook init` instala automáticamente habilidades de agente IA en todos los directorios de agentes de codificación soportados.
+Cuando un agente de codificación (Claude Code, OpenAI Codex, VS Code Copilot, Cursor, Gemini CLI, etc.) detecta la palabra clave **"flowbook"** en tu indicación, hará:
+
+1. Analizar tu base de código en busca de flujos lógicos (rutas API, autenticación, gestión de estado, lógica empresarial, etc.)
+2. Configurar Flowbook si aún no está inicializado
+3. Generar archivos `.flow.md` con diagramas Mermaid para cada flujo significativo
+4. Verificar la compilación
+
+### Instalación Manual de Habilidad
+
+Si no usaste `flowbook init`, copia la habilidad manualmente:
+
+```bash
+# Claude Code
+mkdir -p .claude/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .claude/skills/flowbook/
+
+# OpenAI Codex
+mkdir -p .agents/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agents/skills/flowbook/
+
+# VS Code / GitHub Copilot
+mkdir -p .github/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .github/skills/flowbook/
+
+# Google Antigravity
+mkdir -p .agent/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .agent/skills/flowbook/
+
+# Gemini CLI
+mkdir -p .gemini/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .gemini/skills/flowbook/
+
+# Cursor
+mkdir -p .cursor/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .cursor/skills/flowbook/
+
+# Windsurf (Codeium)
+mkdir -p .windsurf/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .windsurf/skills/flowbook/
+
+# AmpCode
+mkdir -p .amp/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .amp/skills/flowbook/
+
+# OpenCode / oh-my-opencode
+mkdir -p .opencode/skills/flowbook
+cp node_modules/flowbook/src/skills/flowbook/SKILL.md .opencode/skills/flowbook/
+```
+
+### Agentes Compatibles
+
+| Agente | Ubicación de Habilidad |
+|-------|---------------|
+| Claude Code | `.claude/skills/flowbook/SKILL.md` |
+| OpenAI Codex | `.agents/skills/flowbook/SKILL.md` |
+| VS Code / GitHub Copilot | `.github/skills/flowbook/SKILL.md` |
+| Google Antigravity | `.agent/skills/flowbook/SKILL.md` |
+| Gemini CLI | `.gemini/skills/flowbook/SKILL.md` |
+| Cursor | `.cursor/skills/flowbook/SKILL.md` |
+| Windsurf (Codeium) | `.windsurf/skills/flowbook/SKILL.md` |
+| AmpCode | `.amp/skills/flowbook/SKILL.md` |
+| OpenCode / oh-my-opencode | `.opencode/skills/flowbook/SKILL.md` |
+
 ## Cómo Funciona
 
 ```
