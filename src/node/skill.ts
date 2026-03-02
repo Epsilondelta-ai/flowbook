@@ -135,12 +135,12 @@ function resolveAgents(agentArg: string): AgentConfig[] {
   return found;
 }
 
-function installFile(src: string, destDir: string, destFilename: string): boolean {
+function installFile(src: string, destDir: string, destFilename: string): { action: "installed" | "updated" | "skipped" } {
   const dest = resolve(destDir, destFilename);
-  if (existsSync(dest)) return false;
+  const existed = existsSync(dest);
   mkdirSync(destDir, { recursive: true });
   copyFileSync(src, dest);
-  return true;
+  return { action: existed ? "updated" : "installed" };
 }
 
 export function installSkills(agentArg: string, global: boolean): void {
@@ -153,22 +153,24 @@ export function installSkills(agentArg: string, global: boolean): void {
     process.exit(1);
   }
 
-  let skillCount = 0;
-  let cmdCount = 0;
+  let installedSkills = 0;
+  let updatedSkills = 0;
+  let installedCmds = 0;
+  let updatedCmds = 0;
 
   for (const agent of agents) {
     const skillDir = resolve(base, global ? agent.skill.global : agent.skill.project);
-    if (installFile(skillSrc, skillDir, "SKILL.md")) {
-      skillCount++;
-    }
+    const skillResult = installFile(skillSrc, skillDir, "SKILL.md");
+    if (skillResult.action === "installed") installedSkills++;
+    else if (skillResult.action === "updated") updatedSkills++;
 
     if (agent.command) {
       const cmdSrc = getCommandSrc(agent.command.format);
       if (existsSync(cmdSrc)) {
         const cmdDir = resolve(base, global ? agent.command.global : agent.command.project);
-        if (installFile(cmdSrc, cmdDir, "flowbook.md")) {
-          cmdCount++;
-        }
+        const cmdResult = installFile(cmdSrc, cmdDir, "flowbook.md");
+        if (cmdResult.action === "installed") installedCmds++;
+        else if (cmdResult.action === "updated") updatedCmds++;
       }
     }
   }
@@ -176,13 +178,11 @@ export function installSkills(agentArg: string, global: boolean): void {
   const scope = global ? "global" : "project";
   const agentNames = agents.map((a) => a.name).join(", ");
 
-  if (skillCount > 0 || cmdCount > 0) {
-    if (skillCount > 0) console.log(`  ✓ Installed skill to ${skillCount} ${scope} director${skillCount > 1 ? "ies" : "y"}`);
-    if (cmdCount > 0) console.log(`  ✓ Installed /flowbook command to ${cmdCount} ${scope} director${cmdCount > 1 ? "ies" : "y"}`);
-    console.log(`  Agents: ${agentNames}`);
-  } else {
-    console.log(`  ✓ Already installed for: ${agentNames}`);
-  }
+  if (installedSkills > 0) console.log(`  ✓ Installed skill to ${installedSkills} ${scope} director${installedSkills > 1 ? "ies" : "y"}`);
+  if (updatedSkills > 0) console.log(`  ✓ Updated skill in ${updatedSkills} ${scope} director${updatedSkills > 1 ? "ies" : "y"}`);
+  if (installedCmds > 0) console.log(`  ✓ Installed /flowbook command to ${installedCmds} ${scope} director${installedCmds > 1 ? "ies" : "y"}`);
+  if (updatedCmds > 0) console.log(`  ✓ Updated /flowbook command in ${updatedCmds} ${scope} director${updatedCmds > 1 ? "ies" : "y"}`);
+  console.log(`  Agents: ${agentNames}`);
 }
 
 /** Used by init.ts — installs skills only (no commands) to all agents at project level */
@@ -191,14 +191,13 @@ export function installAllProjectSkills(): number {
   const skillSrc = getSkillSrc();
   if (!existsSync(skillSrc)) return 0;
 
-  let installed = 0;
+  let count = 0;
   for (const agent of AGENTS) {
     const dir = resolve(cwd, agent.skill.project);
-    if (installFile(skillSrc, dir, "SKILL.md")) {
-      installed++;
-    }
+    const result = installFile(skillSrc, dir, "SKILL.md");
+    if (result.action !== "skipped") count++;
   }
-  return installed;
+  return count;
 }
 
 export function printSkillUsage(): void {
