@@ -10,19 +10,19 @@ description: Forgot password flow — email verification, token validation, and 
 flowchart TD
     A([POST /auth/forgot-password]) --> B[/Email Input/]
     B --> C[(Find User by Email)]
-    C -->|Not Found| D[\200 OK]
+    C -->|Not Found| D[/200 OK\]
     C -->|Found| E[Generate Reset Token]
     E --> F[(Store Token with Expiry)]
     F --> G[[Send Reset Email]]
     G --> H[/User Clicks Link/]
     H --> I([POST /auth/reset-password])
     I --> J{{"Validate Token & Expiry"}}
-    J -->|Expired| K[\400 Token Expired/]
+    J -->|Expired| K[/400 Token Expired\]
     J -->|Valid| L{{Check Password Strength}}
-    L -->|Weak| M[\400 Weak Password/]
+    L -->|Weak| M[/400 Weak Password\]
     L -->|Strong| N[(Update Password Hash)]
     N --> O[Invalidate All Sessions]
-    O --> P[\200 Password Updated/]
+    O --> P[/200 Password Updated\]
 
     classDef entry fill:#6366f1,stroke:#818cf8,color:#fff
     classDef ui fill:#06b6d4,stroke:#22d3ee,color:#fff
