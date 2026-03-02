@@ -1,6 +1,6 @@
 {
   "name": "flowbook",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "type": "module",
   "bin": {
     "flowbook": "dist/cli.js"
@@ -13,8 +13,8 @@
     "dev": "vite",
     "build": "tsup",
     "preview": "vite preview",
-    "flowbook": "flowbook dev",
-    "build-flowbook": "flowbook build"
+    "flowbook": "node dist/cli.js dev",
+    "build-flowbook": "node dist/cli.js build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
@@ -31,7 +31,6 @@
     "@types/node": "^25.3.3",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "flowbook": "^0.2.7",
     "tsup": "^8.0.0",
     "typescript": "^5.7.0"
   }
