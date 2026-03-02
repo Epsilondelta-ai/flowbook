@@ -109,6 +109,16 @@ npx skills add Epsilondelta-ai/flowbook
 
 설치된 코딩 에이전트를 자동 감지하여 올바른 디렉토리에 스킬을 설치합니다.
 
+### 전역 설치
+
+모든 프로젝트에서 사용할 수 있도록 스킬을 전역으로 설치하려면:
+
+```bash
+npx skills add -g Epsilondelta-ai/flowbook
+```
+
+각 에이전트의 전역 디렉토리(예: `~/.claude/skills/`, `~/.config/opencode/skills/` 등)에 스킬을 설치합니다.
+
 ### 호환 에이전트
 
 | 에이전트 | 스킬 위치 |

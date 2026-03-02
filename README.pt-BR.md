@@ -109,6 +109,16 @@ npx skills add Epsilondelta-ai/flowbook
 
 Detecta automaticamente seus agentes de codificação instalados e instala a habilidade nos diretórios corretos.
 
+### Instalação Global
+
+Para instalar a habilidade globalmente (disponível em todos os projetos):
+
+```bash
+npx skills add -g Epsilondelta-ai/flowbook
+```
+
+Instala a habilidade no diretório global de cada agente (ex: `~/.claude/skills/`, `~/.config/opencode/skills/`, etc.).
+
 ### Agentes Compatíveis
 
 | Agente | Local da Habilidade |

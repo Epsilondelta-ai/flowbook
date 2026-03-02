@@ -109,6 +109,16 @@ npx skills add Epsilondelta-ai/flowbook
 
 インストール済みのコーディングエージェントを自動検出し、適切なディレクトリにスキルをインストールします。
 
+### グローバルインストール
+
+すべてのプロジェクトでスキルを使用できるようにグローバルにインストールするには：
+
+```bash
+npx skills add -g Epsilondelta-ai/flowbook
+```
+
+各エージェントのグローバルディレクトリ（例：`~/.claude/skills/`、`~/.config/opencode/skills/` など）にスキルをインストールします。
+
 ### 互換性のあるエージェント
 
 | エージェント | スキル位置 |

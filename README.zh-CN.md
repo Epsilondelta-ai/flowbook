@@ -109,6 +109,16 @@ npx skills add Epsilondelta-ai/flowbook
 
 自动检测已安装的编码代理并将技能安装到正确的目录。
 
+### 全局安装
+
+要在所有项目中都可使用技能，请全局安装：
+
+```bash
+npx skills add -g Epsilondelta-ai/flowbook
+```
+
+这会将技能安装到每个代理的全局目录（例如 `~/.claude/skills/`、`~/.config/opencode/skills/` 等）。
+
 ### 兼容代理
 
 | 代理 | 技能位置 |
