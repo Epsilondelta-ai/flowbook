@@ -12,11 +12,8 @@ Storybook pour les diagrammes de flux. Découvre automatiquement les fichiers de
 ## Démarrage Rapide
 
 ```bash
-# Installer
-npm install -D flowbook
-
 # Initialiser — ajoute les scripts + fichier d'exemple
-npx flowbook init
+npx flowbook@latest init
 
 # Démarrer le serveur de développement
 npm run flowbook

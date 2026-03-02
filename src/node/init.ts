@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { execSync } from "node:child_process";
 
 const EXAMPLE_FLOW = `---
 title: Example Flow
@@ -28,7 +29,18 @@ export async function initFlowbook() {
     process.exit(1);
   }
 
-  // 1. Add scripts to package.json
+  // 1. Install flowbook as devDependency
+  const pm = detectPackageManager(cwd);
+  const installCmd = getInstallCommand(pm);
+  console.log(`  Installing flowbook via ${pm}...`);
+  try {
+    execSync(installCmd, { cwd, stdio: "ignore" });
+    console.log("  ✓ Installed flowbook as a dev dependency");
+  } catch {
+    console.error(`  ✗ Failed to run '${installCmd}'. Please install manually.`);
+  }
+
+  // 2. Add scripts to package.json
   const raw = readFileSync(pkgPath, "utf-8");
   const pkg = JSON.parse(raw);
   pkg.scripts = pkg.scripts ?? {};
@@ -51,7 +63,7 @@ export async function initFlowbook() {
     console.log("  ✓ Scripts already exist in package.json");
   }
 
-  // 2. Create example flow file
+  // 3. Create example flow file
   const flowsDir = resolve(cwd, "flows");
   const examplePath = resolve(flowsDir, "example.flow.md");
 
@@ -63,9 +75,36 @@ export async function initFlowbook() {
     console.log("  ✓ Example flow already exists");
   }
 
+  // 4. Add flowbook-static to .gitignore
+  const gitignorePath = resolve(cwd, ".gitignore");
+  if (existsSync(gitignorePath)) {
+    const gitignore = readFileSync(gitignorePath, "utf-8");
+    if (!gitignore.includes("flowbook-static")) {
+      writeFileSync(gitignorePath, gitignore.trimEnd() + "\nflowbook-static\n");
+      console.log("  ✓ Added flowbook-static to .gitignore");
+    }
+  }
+
+  const run = pm === "yarn" ? "yarn" : `${pm} run`;
   console.log("");
   console.log("  Next steps:");
-  console.log("    npm run flowbook       Start the dev server");
-  console.log("    npm run build-flowbook  Build static site");
+  console.log(`    ${run} flowbook       Start the dev server`);
+  console.log(`    ${run} build-flowbook  Build static site`);
   console.log("");
+}
+
+function detectPackageManager(cwd: string): "npm" | "yarn" | "pnpm" | "bun" {
+  if (existsSync(resolve(cwd, "bun.lockb")) || existsSync(resolve(cwd, "bun.lock"))) return "bun";
+  if (existsSync(resolve(cwd, "pnpm-lock.yaml"))) return "pnpm";
+  if (existsSync(resolve(cwd, "yarn.lock"))) return "yarn";
+  return "npm";
+}
+
+function getInstallCommand(pm: string): string {
+  switch (pm) {
+    case "bun": return "bun add -D flowbook";
+    case "pnpm": return "pnpm add -D flowbook";
+    case "yarn": return "yarn add -D flowbook";
+    default: return "npm install -D flowbook";
+  }
 }

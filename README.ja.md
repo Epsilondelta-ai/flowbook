@@ -12,11 +12,8 @@
 ## クイックスタート
 
 ```bash
-# インストール
-npm install -D flowbook
-
 # 初期化 — スクリプト + サンプルファイルを追加
-npx flowbook init
+npx flowbook@latest init
 
 # 開発サーバーを起動
 npm run flowbook

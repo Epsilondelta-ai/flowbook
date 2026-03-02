@@ -12,11 +12,8 @@
 ## 快速开始
 
 ```bash
-# 安装
-npm install -D flowbook
-
 # 初始化 — 添加脚本 + 示例文件
-npx flowbook init
+npx flowbook@latest init
 
 # 启动开发服务器
 npm run flowbook

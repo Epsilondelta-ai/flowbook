@@ -12,11 +12,8 @@ Storybook für Flussdiagramme. Erkennt automatisch Mermaid-Diagrammdateien in Ih
 ## Schnellstart
 
 ```bash
-# Installieren
-npm install -D flowbook
-
 # Initialisieren — fügt Skripte + Beispieldatei hinzu
-npx flowbook init
+npx flowbook@latest init
 
 # Entwicklungsserver starten
 npm run flowbook

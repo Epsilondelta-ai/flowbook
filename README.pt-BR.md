@@ -12,11 +12,8 @@ Storybook para fluxogramas. Descobre automaticamente arquivos de diagramas Merma
 ## Início Rápido
 
 ```bash
-# Instalar
-npm install -D flowbook
-
 # Inicializar — adiciona scripts + arquivo de exemplo
-npx flowbook init
+npx flowbook@latest init
 
 # Iniciar servidor de desenvolvimento
 npm run flowbook

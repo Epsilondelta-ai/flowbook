@@ -12,11 +12,8 @@ Storybook for flowcharts. Auto-discovers Mermaid diagram files from your codebas
 ## Quick Start
 
 ```bash
-# Install
-npm install -D flowbook
-
 # Initialize — adds scripts + example file
-npx flowbook init
+npx flowbook@latest init
 
 # Start dev server
 npm run flowbook
