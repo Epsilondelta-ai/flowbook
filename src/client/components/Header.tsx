@@ -12,21 +12,11 @@ export function Header({
   return (
     <header className="h-14 border-b border-zinc-800 flex items-center px-4 gap-4 shrink-0 bg-zinc-950">
       <div className="flex items-center gap-2.5">
-        <svg
-          className="w-6 h-6 text-violet-400"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="8" y="14" width="7" height="7" rx="1" />
-          <path d="M6.5 10v1.5a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V10" />
-          <path d="M11.5 12.5V14" />
-        </svg>
+        <img
+          src="/favicon-32x32.png"
+          alt="Flowbook"
+          className="w-6 h-6"
+        />
         <h1 className="text-lg font-semibold tracking-tight text-zinc-100">
           Flowbook
         </h1>
