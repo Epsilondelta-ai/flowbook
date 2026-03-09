@@ -14,6 +14,7 @@ function getClientDir(): string {
 
 function createConfig(options: {
   port?: number;
+  host?: string;
   cwd?: string;
   outDir?: string;
 }): InlineConfig {
@@ -34,6 +35,7 @@ function createConfig(options: {
     ],
     server: {
       port: options.port ?? 6200,
+      ...(options.host !== undefined && { host: options.host }),
     },
     build: {
       outDir: resolve(cwd, options.outDir ?? "flowbook-static"),
@@ -42,8 +44,8 @@ function createConfig(options: {
   };
 }
 
-export async function startDevServer(options: { port?: number }) {
-  const config = createConfig({ port: options.port });
+export async function startDevServer(options: { port?: number; host?: string }) {
+  const config = createConfig({ port: options.port, host: options.host });
   const server = await createServer(config);
   await server.listen();
   server.printUrls();

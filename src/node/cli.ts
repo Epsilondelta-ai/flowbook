@@ -13,7 +13,9 @@ async function main() {
 
     case "dev": {
       const port = Number(getFlag(args, "--port", "6200"));
-      await startDevServer({ port });
+      const hostFlag = getFlag(args, "--host", "");
+      const host = hostFlag || undefined;
+      await startDevServer({ port, host });
       break;
     }
 
@@ -56,12 +58,13 @@ function printUsage() {
 
   Usage:
     flowbook init                Set up Flowbook in your project
-    flowbook dev  [--port 6200]  Start the dev server
+    flowbook dev  [--port 6200] [--host <host>]  Start the dev server
     flowbook build [--out-dir d] Build a static site
     flowbook skill <agent> [-g]  Install AI agent skill & command
 
   Options:
     --port <number>    Dev server port (default: 6200)
+    --host <host>      Dev server host (e.g. 0.0.0.0)
     --out-dir <path>   Build output directory (default: flowbook-static)
 
   Run 'flowbook skill' for agent-specific options.
